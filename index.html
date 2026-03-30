@@ -176,6 +176,7 @@
       text-transform: uppercase;
     }
 
+    /* FIX starts here: REWRITTEN steps system */
     .steps {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -187,11 +188,12 @@
       border: 1px solid var(--line);
       border-radius: 20px;
       padding: 30px;
-      position: relative;
+      display: flex;
+      align-items: start;
+      gap: 20px;
     }
 
-    .step::before {
-      content: attr(data-step);
+    .step-number {
       display: flex;
       width: 40px;
       height: 40px;
@@ -201,8 +203,12 @@
       background: #dcfce7;
       color: var(--success);
       font-weight: 700;
-      margin-bottom: 20px;
+      flex-shrink: 0; /* Important: stops it from squishing */
     }
+
+    .step-content { flex-grow: 1; }
+    .step-content h4 { margin-top: 0; margin-bottom: 5px; }
+    .step-content p { margin: 0; color: var(--muted); }
 
     /* Booking Form */
     .booking-wrap {
@@ -267,9 +273,17 @@
     }
 
     @media (max-width: 860px) {
-      .hero, .grid-3, .steps, .booking-wrap, .booking-grid { grid-template-columns: 1fr; }
+      .hero, .grid-3, .booking-wrap, .booking-grid { grid-template-columns: 1fr; }
       .nav-links { display: none; }
       .hero-section { padding: 40px 0; }
+
+      /* Mobile Specific FIX: Stack vertically, maintain flex next to text */
+      .steps {
+        grid-template-columns: 1fr;
+      }
+      .step {
+        align-items: center; /* Center numbering on mobile */
+      }
     }
   </style>
 </head>
@@ -386,17 +400,26 @@
         <div style="padding: 20px;">
           <h3>How it works</h3>
           <div class="steps">
-            <div class="step" data-step="1" style="border:none; padding: 15px 0;">
-              <h4>Request</h4>
-              <p>Fill the form with your order details.</p>
+            <div class="step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Request</h4>
+                <p>Fill the form with your order details.</p>
+              </div>
             </div>
-            <div class="step" data-step="2" style="border:none; padding: 15px 0;">
-              <h4>Chat</h4>
-              <p>We confirm availability and price on WhatsApp.</p>
+            <div class="step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Chat</h4>
+                <p>We confirm availability and price on WhatsApp.</p>
+              </div>
             </div>
-            <div class="step" data-step="3" style="border:none; padding: 15px 0;">
-              <h4>Pickup</h4>
-              <p>Collect your items at our Umuahia location.</p>
+            <div class="step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Pickup</h4>
+                <p>Collect your items at our Umuahia location.</p>
+              </div>
             </div>
           </div>
         </div>
